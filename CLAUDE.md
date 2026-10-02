@@ -4,12 +4,27 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Qué es este repo
 
-FlowSync: proyecto de práctica del curso (gestión de tareas en equipo). Monorepo sin workspaces ni `package.json` raíz — **todos los comandos se ejecutan desde `backend/` o desde `frontend/`**.
+FlowSync: proyecto de práctica del curso (gestión de tareas en equipo). Monorepo sin workspaces ni `package.json` raíz — **los comandos de npm/ace se ejecutan desde `backend/` o desde `frontend/`**.
 
 - `backend/` — API AdonisJS 7 + Lucid 22 + SQLite, escucha en `http://localhost:3333`
 - `frontend/` — React 19 + Vite 8, escucha en `http://localhost:5173`
 
 La rama `s1/start` es el punto de partida de los alumnos; `main` es la base del repo cliente.
+
+`AGENTS.md` solo contiene la línea `CLAUDE.md` (apunta a este fichero): no dupliques contenido allí. El `README.md` está generado desde la lección del módulo y no se edita a mano; `prompts.md` es la plantilla donde el alumno registra los prompts del ejercicio (modelo y herramienta incluidos).
+
+## Entorno y atajos (`make`)
+
+Requiere **Node 24+** (con Node 20 no arranca: `Unknown file extension ".ts"`; con 22 arranca con avisos `EBADENGINE`). El `Makefile` usa sintaxis POSIX: funciona en macOS, Linux y **Windows solo dentro de WSL** (con el repo en `~/...`, no en `/mnt/c`); en PowerShell no.
+
+```bash
+make setup   # npm install en ambos, crea los .env, genera APP_KEY y migra
+make start   # levanta backend y frontend a la vez (Ctrl-C para los dos)
+make clean   # borra node_modules y la SQLite
+make help
+```
+
+`make start` es solo para uso interactivo: no lo llames desde scripts ni CI (su `kill -INT 0` mataría también al proceso que invoca a make).
 
 ## Comandos
 
@@ -17,7 +32,7 @@ La rama `s1/start` es el punto de partida de los alumnos; `main` es la base del 
 
 ```bash
 npm install
-cp .env.example .env && node ace generate:key   # solo la primera vez
+cp .env.example .env && node ace generate:key   # solo la primera vez (make setup lo hace)
 node ace migration:run                          # crea tmp/db.sqlite3 y regenera database/schema.ts
 npm run dev                                     # node ace serve --hmr
 npm test                                        # node ace test
@@ -125,6 +140,13 @@ Organización de `src/`:
 - `pages/`, `components/` — pantallas y componentes propios.
 
 La URL de la API sale de `VITE_API_URL` (ver `frontend/.env.example`); por defecto `http://localhost:3333`.
+
+## Herramientas de Claude Code en el repo
+
+- `.claude/skills/commit` — genera el commit convencional a partir de lo staged.
+- `.claude/skills/priority-ticket` — trae de Jira el ticket de mayor prioridad del usuario y arranca el trabajo.
+- `.claude/agents/adversarial-reviewer` — revisor de PRs de solo lectura cuyo objetivo es refutar, no aprobar.
+- `.mcp.json` — servidor MCP de Atlassian (Jira), usado por `priority-ticket`; requiere autenticarse.
 
 ## Reglas de proceso
 - Antes de tocar código: crear una rama nueva (`git checkout -b feat/<slug>`). Nunca commitear directo en `main`/`s1/start`.
