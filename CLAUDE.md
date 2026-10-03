@@ -11,7 +11,7 @@ FlowSync: proyecto de práctica del curso (gestión de tareas en equipo). Monore
 
 La rama `s1/start` es el punto de partida de los alumnos; `main` es la base del repo cliente.
 
-Este repo es el derivado de un cohorte; el canónico publica las ramas a los repos de cada cohorte con `scripts/publicar-cohorte.sh` (proceso descrito en `COHORTES.md`; no lo toques sin leerlo).
+`COHORTES.md` y `scripts/publicar-cohorte.sh` describen cómo el repo canónico publica las ramas a los repos de cada cohorte (script de TAs: requiere bash y `gh` autenticado; no lo edites sin leer `COHORTES.md`, comprueba que su copia coincide con la del canónico).
 
 `AGENTS.md` solo contiene la línea `CLAUDE.md` (apunta a este fichero): no dupliques contenido allí. El `README.md` está generado desde la lección del módulo y no se edita a mano; `prompts.md` es la plantilla donde el alumno registra los prompts del ejercicio (modelo y herramienta incluidos).
 
