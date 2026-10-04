@@ -11,7 +11,7 @@ FlowSync: proyecto de práctica del curso (gestión de tareas en equipo). Monore
 
 Hay una rama de partida por sesión del curso (`s1/start`, `s3/start`, …) que es el punto de partida de los alumnos; `main` es la base del repo cliente.
 
-`AGENTS.md` solo contiene el texto `CLAUDE.md`: este fichero es la única fuente de instrucciones (el subagente `adversarial-reviewer` revisa contra él).
+`AGENTS.md` es un symlink a este fichero (en Windows sin symlinks se ve como un fichero con el texto `CLAUDE.md`; no lo reemplaces por un fichero normal): `CLAUDE.md` es la única fuente de instrucciones (el subagente `adversarial-reviewer` revisa contra él).
 
 ## Contexto de producto
 
@@ -143,8 +143,8 @@ Organización de `src/`:
 La URL de la API sale de `VITE_API_URL` (ver `frontend/.env.example`); por defecto `http://localhost:3333`.
 
 ## Reglas de proceso
-- Skills y subagente del proyecto (`.claude/`): `/priority-ticket` (al empezar: toma el ticket "Por hacer" de mayor prioridad en Jira, propone plan, lo mueve a "En curso" y luego a "En revisión" con el enlace al PR), `/commit` (al cerrar) y el subagente `adversarial-reviewer`.
-- Antes de tocar código: crear una rama nueva (`git checkout -b feat/<slug>`). Nunca commitear directo en `main`/`s1/start`.
+- Skills del proyecto (`.claude/skills/`): `/priority-ticket` toma el ticket "Por hacer" de mayor prioridad en Jira y entra en plan mode; al aprobar el plan lo pasa a "En curso", y tras crear el PR a "En revisión" con un comentario con el enlace. `/commit` solo commitea lo ya staged (haz `git add` antes).
+- Antes de tocar código: crear una rama nueva (`git checkout -b feat/<slug>`). Nunca commitear directo en `main` ni en las ramas `sN/start`.
 - Al cerrar la tarea: usar la skill `/commit`, luego `gh pr create` con una descripción completa de los cambios en el cuerpo del PR.
 - Después de abrir el PR: usar el subagente `adversarial-reviewer` sobre él, antes de darlo por terminado.
 - No repitas ese resumen en el chat: la sesión se va a perder, el PR no. Responde solo con la URL del PR.
