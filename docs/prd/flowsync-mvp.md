@@ -85,7 +85,7 @@ Abres FlowSync y ves de un vistazo qué hace cada persona y qué queda por coger
 - **E2 · Gestión de tareas:** crear, asignar, cambiar de estado, filtrar y archivar las tareas de la lista compartida.
 - **E3 · Actividad del equipo:** ver lo que se ha movido, sin recargar y con la antigüedad de cada cambio a la vista.
 
-> **Nota sobre E3.** En el alcance consensuado, el sync en tiempo real estricto queda fuera. E3 cubre solo la frescura de 5 a 10 segundos, y nada de presencia ni de aviso.
+> **Nota sobre E3.** En el alcance consensuado, el sync en tiempo real estricto queda fuera. E3 cubre la frescura de 5 a 10 segundos y el «actualizada hace X» de cada tarea, y nada de presencia ni de aviso.
 
 ## 6. Requisitos funcionales (a nivel producto)
 
@@ -104,8 +104,8 @@ Cada requisito se puede comprobar con una prueba de aceptación.
 - **RF-6.** Al crear una tarea se puede indicar una fecha de vencimiento, que es opcional.
 - **RF-7.** El responsable puede ser cualquier miembro del equipo, incluido quien crea la tarea.
 - **RF-8.** Toda tarea nueva empieza en el estado «pendiente».
-- **RF-9.** Cualquier miembro puede cambiar el estado de cualquier tarea activa entre los tres estados fijos (pendiente, en curso y hecho), en ambos sentidos, en no más de dos clics desde la lista abierta.
-- **RF-10.** Cualquier miembro puede cambiar el título, el responsable y la fecha de vencimiento de una tarea activa.
+- **RF-9.** Cualquier miembro puede cambiar el estado de cualquier tarea activa entre los tres estados fijos (pendiente, en curso y hecho), en no más de dos clics desde la lista abierta. **[SUPUESTO]** Se puede cambiar en ambos sentidos, también de «hecho» a otro estado.
+- **RF-10.** **[SUPUESTO]** Cualquier miembro puede cambiar el título, el responsable y la fecha de vencimiento de una tarea activa. El alcance consensuado no menciona editar: se incluye porque, sin ello, coger la tarea de otro o corregir una errata obliga a archivar y recrear. Si hay que recortar, lo mínimo es poder cambiar el responsable.
 - **RF-11.** La lista muestra todas las tareas activas, con su título, responsable, estado, fecha de vencimiento si la hay, y el tiempo desde su último cambio.
 - **RF-12.** La lista se puede filtrar por estado, y al quitar el filtro muestra todas las activas.
 - **RF-13.** Una tarea con fecha de vencimiento anterior a hoy y que no está en «hecho» se muestra como vencida. Una tarea sin fecha nunca se muestra como vencida. **[SUPUESTO]** Una tarea en «hecho» tampoco se muestra como vencida.
