@@ -9,9 +9,25 @@ FlowSync: proyecto de práctica del curso (gestión de tareas en equipo). Monore
 - `backend/` — API AdonisJS 7 + Lucid 22 + SQLite, escucha en `http://localhost:3333`
 - `frontend/` — React 19 + Vite 8, escucha en `http://localhost:5173`
 
-La rama `s1/start` es el punto de partida de los alumnos; `main` es la base del repo cliente.
+Hay una rama de partida por sesión del curso (`s1/start`, `s3/start`, …) que es el punto de partida de los alumnos; `main` es la base del repo cliente.
+
+`AGENTS.md` solo contiene el texto `CLAUDE.md`: este fichero es la única fuente de instrucciones (el subagente `adversarial-reviewer` revisa contra él).
+
+## Contexto de producto
+
+El alcance vive en `docs/prd/` (`flowsync-mvp.md`, `alcance-mvp.md`) y el backlog en `docs/backlog/`: épicas E2 (gestión de tareas) y E3 (actividad del equipo), una historia por fichero con sus criterios de aceptación, que son lo que dirige la implementación. Los issues de Jira (proyecto FLOW) no están en el repo.
 
 ## Comandos
+
+### Atajos con `make` (raíz del repo)
+
+```bash
+make setup   # npm install en ambos, crea los .env, genera APP_KEY, migra
+make start   # backend y frontend a la vez; Ctrl-C para los dos
+make clean   # borra node_modules y la BD SQLite
+```
+
+El `Makefile` usa sintaxis POSIX (bash): **no funciona en Windows nativo**, solo en macOS/Linux/WSL (y en WSL, con el repo dentro del FS de Linux, no en `/mnt/c`). `make start` es solo para terminal interactiva; no lo llames desde scripts ni CI (su `kill -INT 0` mataría al proceso invocador). En Windows nativo usa los comandos manuales de abajo.
 
 ### Backend (`cd backend`)
 
@@ -127,6 +143,7 @@ Organización de `src/`:
 La URL de la API sale de `VITE_API_URL` (ver `frontend/.env.example`); por defecto `http://localhost:3333`.
 
 ## Reglas de proceso
+- Skills y subagente del proyecto (`.claude/`): `/priority-ticket` (al empezar: toma el ticket "Por hacer" de mayor prioridad en Jira, propone plan, lo mueve a "En curso" y luego a "En revisión" con el enlace al PR), `/commit` (al cerrar) y el subagente `adversarial-reviewer`.
 - Antes de tocar código: crear una rama nueva (`git checkout -b feat/<slug>`). Nunca commitear directo en `main`/`s1/start`.
 - Al cerrar la tarea: usar la skill `/commit`, luego `gh pr create` con una descripción completa de los cambios en el cuerpo del PR.
 - Después de abrir el PR: usar el subagente `adversarial-reviewer` sobre él, antes de darlo por terminado.
