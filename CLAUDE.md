@@ -9,9 +9,21 @@ FlowSync: proyecto de práctica del curso (gestión de tareas en equipo). Monore
 - `backend/` — API AdonisJS 7 + Lucid 22 + SQLite, escucha en `http://localhost:3333`
 - `frontend/` — React 19 + Vite 8, escucha en `http://localhost:5173`
 
+`origin` es el fork personal y `upstream` el repo del curso (`LIDR-academy`): los PR se abren contra el fork y contra la rama de la que parte el trabajo (p. ej. `s3/start`), no contra su `main`, que no comparte historia con ella.
+
 La rama `s1/start` es el punto de partida de los alumnos; `main` es la base del repo cliente.
 
 ## Comandos
+
+### Atajos desde la raíz (`Makefile`)
+
+```bash
+make setup   # npm install en ambos, crea los .env, genera APP_KEY y migra
+make start   # backend + frontend a la vez (Ctrl-C para los dos)
+make clean   # borra node_modules y la BD SQLite
+```
+
+`make start` es solo para uso interactivo: su `kill -INT 0` mataría al proceso que lo invoque desde un script o CI. Requiere **Node ≥ 24** (con Node 20 falla con `Unknown file extension ".ts"`). El Makefile usa sintaxis POSIX: en Windows trabaja desde WSL con el repo en `~/`, no en `/mnt/c`.
 
 ### Backend (`cd backend`)
 
@@ -125,6 +137,12 @@ Organización de `src/`:
 - `pages/`, `components/` — pantallas y componentes propios.
 
 La URL de la API sale de `VITE_API_URL` (ver `frontend/.env.example`); por defecto `http://localhost:3333`.
+
+## Documentación y herramientas del repo
+
+- `docs/prd/` — PRD y alcance del MVP (`flowsync-mvp.md`, `alcance-mvp.md`); `docs/backlog/` — épicas e historias (`E2-gestion-tareas`, `E3-actividad-equipo`).- `prompts.md` — registro de los prompts usados en el ejercicio.
+- `.mcp.json` — servidor MCP de Atlassian (Jira), usado por la skill `priority-ticket`; requiere autorización previa.
+- `.claude/skills/` — `commit` y `priority-ticket`; `.claude/agents/adversarial-reviewer.md` — revisor de PR (contrasta contra `AGENTS.md`, en la raíz, que es un symlink a este mismo fichero).
 
 ## Reglas de proceso
 - Antes de tocar código: crear una rama nueva (`git checkout -b feat/<slug>`). Nunca commitear directo en `main`/`s1/start`.
