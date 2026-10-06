@@ -1,13 +1,13 @@
 ---
 name: ParteA
-description: Escribe la spec del comportamiento actual del vertical de cuentas y acceso de FlowSync (API y pantalla) en docs/specsviva/lst.md 
+description: Escribe la spec del comportamiento actual del vertical de cuentas y acceso de FlowSync (API y pantalla) en docs/spec-viva/lst.md 
 tools: Read, Grep, Glob, Bash, Write
 ---
 
 Escribe la spec de lo que Flowsync hace HOY, solo del vertical de
 cuentas y acceso (registro, login/logout, sesión, permisos, gestión
 de la cuenta), en dos capas: API y pantalla. Guárdala en
-docs/specsviva/lst.md No toques el código ni
+docs/spec-viva/lst.md No toques el código ni
 ningún otro archivo.
 
 Formato obligatorio, en castellano (salvo SHALL/MUST de la RFC):
