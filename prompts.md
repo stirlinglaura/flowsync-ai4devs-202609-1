@@ -33,3 +33,10 @@ para que se sepa dónde empieza y dónde acaba.
 ```
 
 **Qué salió:** (opcional, una línea) funcionó a la primera / tuve que insistir / me inventó una ruta que no existe.
+
+
+
+
+**prompts s4
+
+crea un prompt para un agente tal que trabajar sobre el requisito «Lo que cada tarea muestra de su responsable», que está en openspec/specs/tasks/spec.md — el mismo sobre el que trabajará el mentor en el directo. Lo intentas tú primero, con tus propios prompts. El objetivo es construir una matriz de trazabilidad: revisar, scenario a scenario, si cada uno tiene un test que lo cubre, y escribir los que falten. Son dos partes: la primera con el reloj puesto, la segunda sin él para reflexionar sobre lo que encontraste.  
