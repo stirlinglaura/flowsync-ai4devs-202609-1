@@ -1,6 +1,7 @@
 import User from '#models/user'
 import Task from '#models/task'
 import { test } from '@japa/runner'
+import type { ApiClient } from '@japa/api-client'
 import testUtils from '@adonisjs/core/services/test_utils'
 
 /**
@@ -29,21 +30,30 @@ test.group('Tasks | responsable', (group) => {
     return { user, task, bearer: `Bearer ${token.value!.release()}` }
   }
 
-  async function suelta(client: any, id: number, bearer: string) {
+  // Forma observada, no declarada: el test comprueba qué claves llegan de verdad.
+  type Assignee = Record<string, unknown> & { fullName: string | null; initials: string }
+
+  async function suelta(client: ApiClient, id: number, bearer: string) {
     const response = await client
       .get(`/api/v1/tasks/${id}`)
       .qs({ today: HOY })
       .header('Authorization', bearer)
 
     response.assertStatus(200)
-    return response.body().data.assignee
+    return response.body().data.assignee as Assignee
   }
 
-  async function enLista(client: any, id: number, bearer: string) {
+  async function enLista(client: ApiClient, id: number, bearer: string) {
     const response = await client.get('/api/v1/tasks').header('Authorization', bearer)
 
     response.assertStatus(200)
-    return response.body().data.find((t: { id: number }) => t.id === id).assignee
+    const tarea = (response.body().data as Array<{ id: number; assignee: Assignee }>).find(
+      (t) => t.id === id
+    )
+
+    // Si la tarea no está en la lista, el fallo es de la lista, no un TypeError.
+    if (!tarea) throw new Error(`La tarea ${id} no aparece en GET /api/v1/tasks`)
+    return tarea.assignee
   }
 
   // Scenario «Responsable identificable» — tarea suelta.
