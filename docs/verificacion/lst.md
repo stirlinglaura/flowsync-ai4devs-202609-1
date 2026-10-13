@@ -16,8 +16,8 @@ Resultado de la ejecución (`node ace test functional --files=assignee`): 5 verd
 
 ## Las tres líneas
 
-1. **Cuántos creía cubiertos antes de mirar y cuántos lo estaban:** creía ___ de 3 *(escribe aquí tu estimación, la de antes del primer prompt, tal como salió)* · lo estaban **0 de 3** al empezar (ningún test de tareas) y **2 de 3** al terminar.
+1. **Cuántos creía cubiertos antes de mirar y cuántos lo estaban:** creía  1 de 3  y estaban 2 de 3 al terminar.
 
 2. **Scenario del que no supe si era hueco de test o de spec:** el 2. El requisito dice «ningún otro dato de esa cuenta», pero el scenario solo pide que no salga el email «ni ningún otro dato de acceso»; no sé si `createdAt`/`updatedAt` (que la lista también deja salir) cuentan como dato de cuenta. Es un hueco de spec: la regla no dice dónde acaba «de acceso».
 
-3. **Algo que el scenario no decidía y tuve que decidir al escribir el test:** qué iniciales esperar de «Ada Lovelace» (puse `AL`), qué claves cuentan como «dato de acceso» (`email`, `password`, `token`, `rememberMeToken`, `accessToken`) y que para el responsable sin nombre bastaba con «iniciales no vacías» y no con un valor concreto. Los tres valores salieron de mí, no del scenario.
+3. **Algo que el scenario no decidía y tuve que decidir al escribir el test:** qué iniciales esperar de «Ada Lovelace» (`AL`), qué claves cuentan como «dato de acceso» (`email`, `password`, `token`, `rememberMeToken`, `accessToken`) y que para el responsable sin nombre bastaba con «iniciales no vacías» y no con un valor concreto.
