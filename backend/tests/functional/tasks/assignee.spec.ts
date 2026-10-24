@@ -16,7 +16,9 @@ test.group('Tasks | responsable', (group) => {
   group.each.setup(() => testUtils.db().withGlobalTransaction())
 
   const HOY = '2026-08-13'
-  const CLAVES_DE_ACCESO = ['email', 'password', 'token', 'rememberMeToken', 'accessToken']
+  // Iniciales que `User.initials` saca de `ada@example.com` cuando no hay nombre.
+  const INICIALES_DEL_EMAIL = 'AE'
+  const CLAVES_DE_ACCESO =['email', 'password', 'token', 'rememberMeToken', 'accessToken']
 
   async function tareaDe(fullName: string | null, email = 'ada@example.com') {
     const user = await User.create({ fullName, email, password: 'secreto123' })
@@ -125,9 +127,10 @@ test.group('Tasks | responsable', (group) => {
     // «su nombre llega nulo»
     assert.property(assignee, 'fullName')
     assert.isNull(assignee.fullName)
-    // «y sus iniciales siguen llegando»
-    assert.isString(assignee.initials)
-    assert.isNotEmpty(assignee.initials)
+    // «y sus iniciales siguen llegando». AMBIGÜEDAD DE LA SPEC: «sin recurrir a su
+    // email» no dice de dónde salen entonces; el test fija el comportamiento actual
+    // (`User.initials` las deriva del email: «ada@example.com» → «AE»).
+    assert.equal(assignee.initials, INICIALES_DEL_EMAIL)
   })
 
   // Scenario «Responsable sin nombre» — lista.
@@ -141,8 +144,7 @@ test.group('Tasks | responsable', (group) => {
     // «su nombre llega nulo»
     assert.property(assignee, 'fullName')
     assert.isNull(assignee.fullName)
-    // «y sus iniciales siguen llegando»
-    assert.isString(assignee.initials)
-    assert.isNotEmpty(assignee.initials)
+    // «y sus iniciales siguen llegando». AMBIGÜEDAD DE LA SPEC: ver el test de la tarea suelta.
+    assert.equal(assignee.initials, INICIALES_DEL_EMAIL)
   })
 })
