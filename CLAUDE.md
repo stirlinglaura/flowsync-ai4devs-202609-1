@@ -13,6 +13,10 @@ La rama `s1/start` es el punto de partida de los alumnos; `main` es la base del 
 
 ## Comandos
 
+### Atajos desde la raíz (`Makefile`)
+
+`make setup` (install + `.env` + `APP_KEY` + migraciones) y `make start` (backend y frontend a la vez; solo uso interactivo). Requiere bash/GNU Make: en Windows sin WSL no funciona, usa los comandos de abajo.
+
 ### Backend (`cd backend`)
 
 ```bash
@@ -26,7 +30,7 @@ npm run format                                  # prettier --write
 npm run typecheck                               # tsc --noEmit
 ```
 
-Tests (Japa). Dos suites declaradas en `adonisrc.ts`: `unit` (`tests/unit/**/*.spec.ts`, timeout 2s) y `functional` (`tests/functional/**/*.spec.ts`, timeout 30s). Hoy solo hay tests **functional de `auth`** (`tests/functional/auth/`): registro, login, sesión e iniciales. **`tests/unit/` no existe**, y la capability `tasks` no tiene ni un test.
+Tests (Japa). Dos suites declaradas en `adonisrc.ts`: `unit` (`tests/unit/**/*.spec.ts`, timeout 2s) y `functional` (`tests/functional/**/*.spec.ts`, timeout 30s). Hoy hay tests **functional** de `auth` (registro, login, sesión, iniciales) y de `tasks` (`tests/functional/tasks/assignee.spec.ts`, solo el requisito del responsable). **`tests/unit/` no existe**, y el resto de `tasks` (lista, filtro, estado, vencimiento) no tiene tests. `backend/tests/functional copy/` es un duplicado sin trackear: no es una suite real, no lo edites.
 
 ```bash
 node ace test unit                    # una suite
@@ -98,6 +102,15 @@ Rutas actuales (`start/routes.ts`), todas bajo `/api/v1`:
 | POST | `/api/v1/auth/login` | `AccessTokensController.store` | no |
 | GET | `/api/v1/account/profile` | `ProfileController.show` | sí |
 | POST | `/api/v1/account/logout` | `AccessTokensController.destroy` | sí |
+| GET | `/api/v1/tasks` | `TasksController.index` | sí |
+| POST | `/api/v1/tasks` | `TasksController.store` | sí |
+| GET | `/api/v1/tasks/:id` | `TasksController.show` (exige `?today=AAAA-MM-DD`, 422 si falta) | sí |
+| PATCH | `/api/v1/tasks/:id/status` | `TaskStatusesController.update` | sí |
+| PUT | `/api/v1/tasks/:id/due-date` | `TaskDueDatesController.update` | sí |
+
+### Dominio de tareas
+
+Las reglas viven en `app/models/task.ts` y no se reimplementan en otras capas: `TASK_STATUSES` (`pending | in_progress | done`, cerrado), `DEFAULT_LIST_STATUSES` (la lista sin filtro excluye `done`) e `isOverdueOn(referenceDay)` (única definición de «vencida»: fecha estrictamente anterior al día de referencia y tarea no hecha). El día de referencia llega siempre por parámetro (`today`), nunca de un reloj del servidor; el frontend nunca compara fechas.
 
 ### Validación
 
@@ -125,6 +138,10 @@ Organización de `src/`:
 - `pages/`, `components/` — pantallas y componentes propios.
 
 La URL de la API sale de `VITE_API_URL` (ver `frontend/.env.example`); por defecto `http://localhost:3333`.
+
+## Flujo spec-driven (OpenSpec)
+
+Los requisitos viven en `openspec/specs/<capability>/spec.md` (hoy `auth` y `tasks`); los cambios en curso en `openspec/changes/` y los cerrados en `openspec/changes/archive/`. Se trabajan con las skills `/opsx:propose|apply|verify|archive`. El agente `traceability-tester` construye la matriz scenario → test de un requisito y escribe los tests que faltan (ver `docs/verificacion/lst.md`). Contexto de producto en `docs/prd/` y `docs/backlog/`. `AGENTS.md` solo apunta a este fichero.
 
 ## Reglas de proceso
 - Antes de tocar código: crear una rama nueva (`git checkout -b feat/<slug>`). Nunca commitear directo en `main`/`s1/start`.

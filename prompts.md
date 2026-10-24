@@ -874,3 +874,6 @@ Antes de `/commit`, `git diff -- app/` debe estar vacío (salvo un arreglo trivi
 - Cada afirmación de la matriz es comprobable: ruta de fichero y título de test reales.
 - No inventes rutas, campos ni helpers; si no existen, créalos mínimamente y dilo.
 - No subas la cobertura con tests que no puedan fallar.
+
+---
+el escenario 3 indica que es ambiguo y decidi hacer el test con el codigo que muestra las iniciales del mail. Realiza el test y actualiza dejando ese comentario
